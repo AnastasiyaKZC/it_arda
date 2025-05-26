@@ -1,21 +1,16 @@
-from selene import have, by
-import allure
+from selene import have, by, be
 
 class JoinClusterPage:
     def __init__(self, browser):
         self.browser = browser
 
     def open_join_form(self):
-        with allure.step("Нажимаем кнопку 'Вступить' для открытия формы"):
-            self.browser.element(by.text("Вступить")).click()
-            allure.attach(
-                self.browser.driver.get_screenshot_as_png(),
-                name="Форма вступления",
-                attachment_type=allure.attachment_type.PNG
-            )
+        # Нажать кнопку "Вступить" для открытия формы
+        self.browser.element(by.text("Вступить")).click()
         return self
 
     def fill_basic_info(self, email, phone, name, last_name, position, company, site):
+        # Заполнить базовые поля формы
         self.browser.element("input[placeholder='Введите почту']").type(email)
         self.browser.element("input[placeholder='Введите телефон']").type(phone)
         self.browser.element("input[placeholder='Введите имя']").type(name)
@@ -26,18 +21,21 @@ class JoinClusterPage:
         return self
 
     def select_question_1(self, yes=True):
+        # Выбрать ответ "Да" или "Нет" для первого вопроса
         text = 'Да' if yes else 'Нет'
-        # Ищем label с текстом Да или Нет и кликаем по нему
         selector = f"//label[contains(., '{text}')]"
         self.browser.element(by.xpath(selector)).click()
         return self
 
     def select_question_3(self, yes=True):
-        selector = "(//label[contains(., 'Да')]/preceding-sibling::input[@type='checkbox'])[2]" if yes else "(//label[contains(., 'Нет')]/preceding-sibling::input[@type='checkbox'])[2]"
+        # Выбрать ответ "Да" или "Нет" для третьего вопроса (второй по счёту)
+        text = 'Да' if yes else 'Нет'
+        selector = f"(//label[contains(., '{text}')])[2]"
         self.browser.element(by.xpath(selector)).click()
         return self
 
     def set_slider_value(self, index: int, value: int):
+        # Установить значение слайдера по индексу
         sliders = self.browser.all("input[type='range']")
         slider = sliders[index]
         self.browser.driver.execute_script(
@@ -46,14 +44,28 @@ class JoinClusterPage:
         )
         return self
 
-    def agree_to_privacy_policy(self):
-        self.browser.element("input[type='checkbox']").click()
+    def agree_to_privacy_policy(self, force_click=False):
+        # Отметить чекбокс политики конфиденциальности, если не отмечен или по принудительному клику
+        checkbox = self.browser.element("input[type='checkbox']")
+        if force_click:
+            checkbox.click()
+        else:
+            if not checkbox.matching(be.selected):
+                checkbox.click()
         return self
 
     def submit(self):
-        self.browser.element(by.text("ОТПРАВИТЬ ЗАЯВКУ")).click()
+        # Находим кнопку "ОТПРАВИТЬ ЗАЯВКУ" и кликаем по ней
+        button = self.browser.element(by.text("Отправить заявку"))
+        button.should(be.visible).click()
         return self
 
+    # def should_see_success_message(self):
+    #     # Проверить, что появилось сообщение об успешной отправке
+    #     self.browser.element("#app > div > div.fixed.backdrop-blur-sm.left-0.top-0.z-50.bg-background.w-full.h-screen.overflow-auto.flex > div > div > div > p") \
+    #         .should(have.text("Заявка на вступление в ARDA успешно отправлена"))
+
     def should_see_success_message(self):
-        self.browser.should(have.text("Спасибо за заявку")) #адаптировать под реальность
-        return self
+        self.browser.element(
+            "#app > div > div.fixed.backdrop-blur-sm.left-0.top-0.z-50.bg-background.w-full.h-screen.overflow-auto.flex > div > div > div > p") \
+            .should(have.text("Заявка на вступление в ARDA успешно отправлена"))
