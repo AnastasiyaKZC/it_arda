@@ -1,8 +1,8 @@
 # IT ARDA
 проект автоматизации тестирования для IT кластера ARDA
 
-[Ссылка на тестовую документацию](https://docs.google.com/spreadsheets/d/1vC3wX1_P0wmyg4VseXtH_J79s8lgB2vwpbXnJl0WBJA/edit?usp=sharing)
-[Ссылка на тестовый контур](https://arda.ws-dev.ru/) 
+- [Ссылка на тестовую документацию](https://docs.google.com/spreadsheets/d/1vC3wX1_P0wmyg4VseXtH_J79s8lgB2vwpbXnJl0WBJA/edit?usp=sharing)
+- [Ссылка на тестовый контур](https://arda.ws-dev.ru/) 
 
 ## Список проверок, реализованных в автотестах
 ### UI
