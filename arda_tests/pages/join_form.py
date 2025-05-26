@@ -26,7 +26,9 @@ class JoinClusterPage:
         return self
 
     def select_question_1(self, yes=True):
-        selector = "//label[contains(., 'Да')]/preceding-sibling::input[@type='checkbox']" if yes else "//label[contains(., 'Нет')]/preceding-sibling::input[@type='checkbox']"
+        text = 'Да' if yes else 'Нет'
+        # Ищем label с текстом Да или Нет и кликаем по нему
+        selector = f"//label[contains(., '{text}')]"
         self.browser.element(by.xpath(selector)).click()
         return self
 

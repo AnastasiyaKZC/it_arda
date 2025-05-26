@@ -37,7 +37,8 @@ if not logger.handlers:
 
 @pytest.fixture(scope="session")
 def base_url():
-    return "https://it.arda.digital"
+    # return "https://it.arda.digital"
+    return "https://arda.ws-dev.ru/"
 
 def log_request_and_response(response):
     logger.info(f"Response Status Code: {response.status_code}")
