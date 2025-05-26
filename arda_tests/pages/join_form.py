@@ -60,12 +60,9 @@ class JoinClusterPage:
         button.should(be.visible).click()
         return self
 
-    # def should_see_success_message(self):
-    #     # Проверить, что появилось сообщение об успешной отправке
-    #     self.browser.element("#app > div > div.fixed.backdrop-blur-sm.left-0.top-0.z-50.bg-background.w-full.h-screen.overflow-auto.flex > div > div > div > p") \
-    #         .should(have.text("Заявка на вступление в ARDA успешно отправлена"))
 
     def should_see_success_message(self):
         self.browser.element(
             "#app > div > div.fixed.backdrop-blur-sm.left-0.top-0.z-50.bg-background.w-full.h-screen.overflow-auto.flex > div > div > div > p") \
             .should(have.text("Заявка на вступление в ARDA успешно отправлена"))
+
