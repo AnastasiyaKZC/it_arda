@@ -1,5 +1,6 @@
 import allure
 from pages.add_employee_form import AddEmployeePage
+import time
 
 
 # @allure.epic("UI тесты")
@@ -35,25 +36,20 @@ from pages.add_employee_form import AddEmployeePage
 @allure.label("owner", "Kuznetsova")
 def test_add_employee_with_valid_data(setup_browser):
     page = AddEmployeePage(setup_browser)
+    unique_email = f"autotest_user_{int(time.time())}@fake-domain.test"
 
     with allure.step("Открыть форму добавления сотрудника"):
         page.open_add_form()
-
     with allure.step("Заполнить форму корректными данными"):
         page.select_company("Work Solutions")
-    #     page.browser.element(".multiselect__input").press_enter()
-    #     page.fill_email("autotest_user@fake-domain.test") \
-    #         .fill_first_name("Autotest") \
-    #         .fill_last_name("User") \
-    #         .fill_position("Test Engineer") \
-    #         .fill_password("StrongPassword123") \
-    #         .confirm_password("StrongPassword123")
-    #
-    # with allure.step("Отправить форму"):
-    #     page.submit()
-    #
-    # with allure.step("Проверить сообщение об успешном добавлении"):
-    #     page.should_see_success_message("Сотрудник успешно добавлен")
-
-
+        page.fill_email(unique_email)
+        page.fill_first_name("Autotest")
+        page.fill_last_name("User")
+        page.fill_position("Test Engineer")
+        page.fill_password("StrongPassword123")
+        page.confirm_password("StrongPassword123")
+    with allure.step("Отправить форму"):
+        page.submit()
+    with allure.step("Проверить сообщение об успешном добавлении"):
+        page.should_see_success_message()
 

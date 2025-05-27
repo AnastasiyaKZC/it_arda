@@ -14,51 +14,61 @@ class AddEmployeePage:
         return self
 
     def select_company(self, company_name: str):
-        """Выбрать компанию"""
+        """Выбрать компанию из выпадающего списка"""
         self.browser.element(".multiselect").click()
-        self.browser.element(".multiselect__input").type(company_name)
-        self.browser.element(by.xpath(f"//span[contains(text(),'{company_name}')]")).click()
+        input_elem = self.browser.element(".multiselect__input")
+        input_elem.type(company_name)
+        # Ждём появления списка и выбираем первый элемент
+        first_option = self.browser.all(".multiselect__option").first
+        first_option.click()
         return self
 
     def fill_email(self, email: str):
         """Ввести почту"""
-        self.browser.element("input[name='email']").type(email)
+        self.browser.element("#email").type(email)
         return self
 
     def fill_first_name(self, first_name: str):
         """Ввести имя"""
-        self.browser.element("input[name='firstName']").type(first_name)
+        self.browser.element("input[placeholder='Введите имя']").type(first_name)
         return self
 
     def fill_last_name(self, last_name: str):
         """Ввести фамилию"""
-        self.browser.element("input[name='lastName']").type(last_name)
+        self.browser.element("input[placeholder='Введите фамилию']").type(last_name)
         return self
 
     def fill_position(self, position: str):
         """Ввести должность"""
-        self.browser.element("input[name='position']").type(position)
+        self.browser.element("input[placeholder='Введите должность']").type(position)
         return self
 
     def fill_password(self, password: str):
         """Ввести новый пароль"""
-        self.browser.element("input[name='password']").type(password)
+        input_elem = self.browser.element(
+            "//div[label[contains(text(),'Новый пароль')]]//input[@type='password']"
+        )
+        input_elem.type(password)
         return self
 
     def confirm_password(self, password: str):
         """Повторить пароль"""
-        self.browser.element("input[name='confirmPassword']").type(password)
+        input_elem = self.browser.element(
+            "//div[label[contains(text(),'Повторите пароль')]]//input[@type='password']"
+        )
+        input_elem.type(password)
         return self
 
     def submit(self):
         """Нажать кнопку отправки"""
-        self.browser.element("button[type='submit']").click()
+        self.browser.element(
+            "//button[@type='submit' and .//span[contains(@class, 'bg-orange')] and contains(., 'Отправить заявку')]"
+        ).click()
         return self
 
-    def should_see_success_message(self, message: str = "Сотрудник успешно добавлен"):
-        """Проверить сообщение об успехе"""
-        self.browser.element(".success-message").should(have.text(message))
-        return self
+    def should_see_success_message(self):
+        # Проверяем, что есть <h2> с нужным текстом
+        self.browser.element("h2.text-2xl.font-semibold.mb-3").should(have.text("Спасибо за регистрацию!"))
 
     def should_see_error_by_field(self, field_name: str, error_text: str = "Поле обязательно к заполнению"):
         """Проверить ошибку обязательного поля"""
