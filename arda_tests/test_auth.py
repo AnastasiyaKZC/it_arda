@@ -1,6 +1,5 @@
 import allure
 import pytest
-from selene import be
 from pages.auth_page import AuthPage
 
 
