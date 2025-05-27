@@ -44,14 +44,28 @@ class JoinClusterPage:
         )
         return self
 
+    # def agree_to_privacy_policy(self, force_click=False):
+    #     # Отметить чекбокс политики конфиденциальности, если не отмечен или по принудительному клику
+    #     checkbox = self.browser.element("input[type='checkbox']")
+    #     if force_click:
+    #         checkbox.click()
+    #     else:
+    #         if not checkbox.matching(be.selected):
+    #             checkbox.click()
+    #     return self
     def agree_to_privacy_policy(self, force_click=False):
-        # Отметить чекбокс политики конфиденциальности, если не отмечен или по принудительному клику
-        checkbox = self.browser.element("input[type='checkbox']")
+        # img, по которому надо кликнуть (label визуализирует чекбокс)
+        checkbox_img = self.browser.element("form div:nth-child(10) div label img")
+        checkbox_input = self.browser.element("input[type='checkbox']")
+
         if force_click:
-            checkbox.click()
+            # Всегда кликаем, даже если чекбокс уже активен
+            checkbox_img.click()
         else:
-            if not checkbox.matching(be.selected):
-                checkbox.click()
+            # Кликаем только если чекбокс неактивен
+            if not checkbox_input.matching(be.selected):
+                checkbox_img.click()
+
         return self
 
     def submit(self):
@@ -66,3 +80,23 @@ class JoinClusterPage:
             "#app > div > div.fixed.backdrop-blur-sm.left-0.top-0.z-50.bg-background.w-full.h-screen.overflow-auto.flex > div > div > div > p") \
             .should(have.text("Заявка на вступление в ARDA успешно отправлена"))
 
+
+
+    def should_see_required_field_error_by_placeholder(self, placeholder_text: str):
+        # Проверка ошибки валидации по placeholder'у поля
+        container = self.browser.element(
+            f"//input[@placeholder='{placeholder_text}']/ancestor::div[contains(@class, 'flex') and contains(@class, 'flex-wrap') and contains(@class, 'mb-4') and contains(@class, 'w-full')]"
+        )
+        container.element("span.mt-2.text-red").should(
+            be.visible
+        ).should(
+            have.text("Поле обязательно к заполнению")
+        )
+
+    def should_see_generic_required_error(self):
+        # Проверка отображения стандартного сообщения об обязательности поля
+        self.browser.element("span.text-red").should(
+            be.visible
+        ).should(
+            have.text("Поле обязательно к заполнению")
+        )
