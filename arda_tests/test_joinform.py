@@ -17,13 +17,13 @@ def test_successful_join_cluster_submission(setup_browser):
 
     with allure.step("Заполняем корректные данные"):
         join_page.fill_basic_info(
-            email="test@example.com",
-            phone="+79998887766",
-            name="Анна",
-            last_name="Кузнецова",
-            position="QA",
-            company="TestCorp",
-            site="https://testcorp.ru"
+            email="autotest_user@fake-domain.test",
+            phone="+79990000000",
+            name="Autotest",
+            last_name="User",
+            position="Test Engineer",
+            company="Autotest Corp",
+            site="https://autotest.fake"
         )
 
     with allure.step("Отмечаем чекбокс п.1"):
@@ -110,13 +110,13 @@ def test_join_cluster_validation_missing_checkbox_1(setup_browser):
 
     with allure.step("Заполняем корректные данные"):
         join_page.fill_basic_info(
-            email="valid@example.com",
-            phone="+79998887766",
-            name="Анна",
-            last_name="Кузнецова",
-            position="QA",
-            company="TestCorp",
-            site="https://testcorp.ru"
+            email="autotest_user@fake-domain.test",
+            phone="+79990000000",
+            name="Autotest",
+            last_name="User",
+            position="Test Engineer",
+            company="Autotest Corp",
+            site="https://autotest.fake"
         )
 
     with allure.step("Пропускаем чекбокс п.1"):
@@ -158,13 +158,13 @@ def test_join_cluster_validation_missing_checkbox_3(setup_browser):
 
     with allure.step("Заполняем корректные данные"):
         join_page.fill_basic_info(
-            email="valid@example.com",
-            phone="+79998887766",
-            name="Анна",
-            last_name="Кузнецова",
-            position="QA",
-            company="TestCorp",
-            site="https://testcorp.ru"
+            email="autotest_user@fake-domain.test",
+            phone="+79990000000",
+            name="Autotest",
+            last_name="User",
+            position="Test Engineer",
+            company="Autotest Corp",
+            site="https://autotest.fake"
         )
 
     with allure.step("Отмечаем чекбокс п.1"):
@@ -205,13 +205,13 @@ def test_join_cluster_validation_missing_privacy_checkbox(setup_browser):
 
     with allure.step("Заполняем корректные данные в поля формы"):
         join_page.fill_basic_info(
-            email="valid@example.com",
-            phone="+79998887766",
-            name="Анна",
-            last_name="Кузнецова",
-            position="QA",
-            company="TestCorp",
-            site="https://testcorp.ru"
+            email="autotest_user@fake-domain.test",
+            phone="+79990000000",
+            name="Autotest",
+            last_name="User",
+            position="Test Engineer",
+            company="Autotest Corp",
+            site="https://autotest.fake"
         )
 
     with allure.step("Отмечаем чекбокс п.1"):

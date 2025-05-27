@@ -44,15 +44,7 @@ class JoinClusterPage:
         )
         return self
 
-    # def agree_to_privacy_policy(self, force_click=False):
-    #     # Отметить чекбокс политики конфиденциальности, если не отмечен или по принудительному клику
-    #     checkbox = self.browser.element("input[type='checkbox']")
-    #     if force_click:
-    #         checkbox.click()
-    #     else:
-    #         if not checkbox.matching(be.selected):
-    #             checkbox.click()
-    #     return self
+
     def agree_to_privacy_policy(self, force_click=False):
         # img, по которому надо кликнуть (label визуализирует чекбокс)
         checkbox_img = self.browser.element("form div:nth-child(10) div label img")
