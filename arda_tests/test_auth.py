@@ -72,3 +72,34 @@ def test_successful_authorization(setup_browser, credentials):
 
     with allure.step("Проверяем наличие меню авторизованного пользователя"):
         setup_browser.element('button.w-auto.flex.justify-center.align-middle').should(be.visible)
+
+
+import allure
+from selene import be
+
+@allure.epic("UI тесты")
+@allure.feature("Форма авторизации")
+@allure.story("Переход в личный кабинет после авторизации")
+@allure.severity(allure.severity_level.NORMAL)
+@allure.tag("auth", "navigation")
+@allure.label("owner", "Kuznetsova")
+def test_access_account_after_login(setup_browser, credentials):
+    auth_page = AuthPage(setup_browser)
+
+    with allure.step("Авторизуемся с корректными данными"):
+        (
+            auth_page
+            .open_auth_form()
+            .enter_email(credentials["identifier"])
+            .enter_password(credentials["password"])
+            .submit()
+        )
+
+    with allure.step("Переходим на главную страницу через логотип"):
+        setup_browser.element('a[href="/"]').click()
+
+    with allure.step("Нажимаем кнопку 'Личный кабинет' в шапке"):
+        setup_browser.element('a[href="/account/main/"].font-bold').should(be.visible).click()
+
+    with allure.step("Проверяем наличие меню авторизованного пользователя"):
+        setup_browser.element('button.w-auto.flex.justify-center.align-middle').should(be.visible)

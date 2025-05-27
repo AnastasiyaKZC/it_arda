@@ -38,3 +38,8 @@ class AuthPage:
     def should_be_logged_in(self):
         # Проверка, что пользователь авторизовался
         self.browser.element(by.text('Выход')).should(be.visible)
+
+    def click_forgot_password(self):
+        # Нажимаем на кнопку "Забыли пароль"
+        self.browser.element('button:has-text("Забыли пароль")').click()
+        return self
