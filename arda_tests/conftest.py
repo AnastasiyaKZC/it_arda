@@ -13,18 +13,28 @@ from utils import attach
 # Загружаем .env
 load_dotenv()
 
+import os
+import pytest
+
 @pytest.fixture(scope="session")
-def credentials():
+def main_credentials():
     identifier = os.getenv("IDENTIFIER")
     password = os.getenv("PASSWORD")
 
     if not identifier or not password:
         raise EnvironmentError("Не заданы переменные IDENTIFIER или PASSWORD в .env")
 
-    return {
-        "identifier": identifier,
-        "password": password
-    }
+    return {"identifier": identifier, "password": password}
+
+@pytest.fixture(scope="session")
+def test_credentials():
+    identifier = os.getenv("TEST_IDENTIFIER")
+    password = os.getenv("TEST_PASSWORD")
+
+    if not identifier or not password:
+        raise EnvironmentError("Не заданы переменные TEST_IDENTIFIER или TEST_PASSWORD в .env")
+
+    return {"identifier": identifier, "password": password}
 
 # Настройка логирования
 logger = logging.getLogger()
@@ -37,8 +47,8 @@ if not logger.handlers:
 
 @pytest.fixture(scope="session")
 def base_url():
-    return "https://it.arda.digital"
-    # return "https://arda.ws-dev.ru/"
+    # return "https://it.arda.digital"
+    return "https://arda.ws-dev.ru/"
 
 def log_request_and_response(response):
     logger.info(f"Response Status Code: {response.status_code}")
