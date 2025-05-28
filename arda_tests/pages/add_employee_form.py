@@ -1,4 +1,5 @@
-from selene import have, by, be
+from selene import have, be
+
 
 class AddEmployeePage:
     def __init__(self, browser):
@@ -18,9 +19,7 @@ class AddEmployeePage:
         self.browser.element(".multiselect").click()
         input_elem = self.browser.element(".multiselect__input")
         input_elem.type(company_name)
-        # Ждём появления списка и выбираем первый элемент
-        first_option = self.browser.all(".multiselect__option").first
-        first_option.click()
+        self.browser.all(".multiselect__option").first.click()
         return self
 
     def fill_email(self, email: str):
@@ -67,11 +66,15 @@ class AddEmployeePage:
         return self
 
     def should_see_success_message(self):
-        # Проверяем, что есть <h2> с нужным текстом
+        """Проверить, что отображается сообщение об успешной регистрации"""
         self.browser.element("h2.text-2xl.font-semibold.mb-3").should(have.text("Спасибо за регистрацию!"))
+        return self
 
-    # def should_see_error_by_field(self, field_name: str, error_text: str = "Поле обязательно к заполнению"):
-    #     """Проверить ошибку обязательного поля"""
-    #     selector = f"input[name='{field_name}'] ~ span"
-    #     self.browser.element(selector).should(be.visible).should(have.text(error_text))
-    #     return self
+    def should_see_error_by_field(self, label_text: str, error_text: str = "Поле обязательно к заполнению"):
+        """
+        Проверить сообщение об ошибке под полем, которое связано с лейблом с текстом label_text
+        Например, label_text="Новый пароль"
+        """
+        selector = f"//div[label[text()='{label_text}']]//span[contains(@class, 'text-red')]"
+        self.browser.element(selector).should(be.visible).should(have.text(error_text))
+        return self
