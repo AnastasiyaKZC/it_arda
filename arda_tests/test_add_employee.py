@@ -1,32 +1,6 @@
 import allure
-from selene import have
-from pages.add_employee_form import AddEmployeePage
+from selene import have, be
 import time
-
-
-# @allure.epic("UI тесты")
-# @allure.feature("Форма регистрации сотрудника")
-# @allure.story("Проверка отправки пустой формы")
-# @allure.severity(allure.severity_level.CRITICAL)
-# @allure.tag("registration", "validation")
-# @allure.label("owner", "Kuznetsova")
-# def test_empty_employee_form_validation(setup_browser):
-#     page = AddEmployeePage(setup_browser)
-#
-#     with allure.step("Открыть форму добавления сотрудника"):
-#         page.open_add_form()
-#
-#     with allure.step("Нажать кнопку 'Отправить заявку' не заполняя поля"):
-#         page.submit()
-#
-#     with allure.step("Проверить ошибки валидации у обязательных полей"):
-#         page.should_see_error_by_field("email")
-#         page.should_see_error_by_field("firstName")
-#         page.should_see_error_by_field("lastName")
-#         page.should_see_error_by_field("position")
-#         page.should_see_error_by_field("password")
-#         page.should_see_error_by_field("confirmPassword") TODO
-
 
 
 @allure.epic("UI тесты")
@@ -114,3 +88,22 @@ def test_registration_with_existing_email(setup_browser):
         page.submit()
     with allure.step("Проверить сообщение об ошибке о существующем пользователе"):
         page.browser.element("div.max-w-3xl h2").should(have.text("Пользователь с такой почтой уже зарегистрирован"))
+
+
+
+@allure.epic("UI тесты")
+@allure.feature("Регистрация сотрудника")
+@allure.story("Проверка обязательности полей")
+@allure.severity(allure.severity_level.CRITICAL)
+@allure.tag("registration", "negative")
+@allure.label("owner", "Kuznetsova")
+def test_registration_with_empty_fields(setup_browser):
+    page = AddEmployeePage(setup_browser)
+
+    with allure.step("Открыть форму регистрации менеджера"):
+        page.open_add_form()
+    with allure.step("Нажать кнопку 'Отправить заявку' без заполнения полей"):
+        page.submit()
+    with allure.step("Убедиться, что отображается хотя бы одно сообщение о том, что поле обязательно"):
+        browser = page.browser
+        browser.element("//*[contains(text(), 'Поле обязательно к заполнению')]").should(be.visible)
