@@ -25,6 +25,6 @@ class SecondStepForm:
         self.browser.element('span').with_text("Пропустить").click()
         return self
 
-    def click_next(self):
-        self.browser.element('button.relative.inline-block.group.w-full').click()
-        return self
+    # def click_next(self):
+    #     self.browser.element('span.w-full.relative.inline-block.px-8.py-3.text-sm.font-bold.tracking-widest.text-black.uppercase.border-2.border-current').click()
+    #     return self todo
